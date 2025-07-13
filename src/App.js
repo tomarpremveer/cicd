@@ -37,6 +37,7 @@ export const ModalWrapper = () => {
       <button onClick={() => setIsOpen(true)} data-testid="open-button">
         Open Modal
       </button>
+      <p>May be something will appear here</p>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
