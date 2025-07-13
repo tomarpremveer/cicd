@@ -1,0 +1,17 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ stage ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: npm install
+    - name: Run tests
+      run: npm test -- --watchAll=false
