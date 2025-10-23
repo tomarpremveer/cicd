@@ -1,17 +1,35 @@
 name: CI Pipeline
 
 on:
-  pull_request:
-    branches: [ stage ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select deployment environment"
+        required: true
+        default: "stage"
+        type: choice
+        options:
+          - stage
+          - production
+      run_tests:
+        description: "Do you want to run tests?"
+        required: true
+        default: "true"
+        type: boolean
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: npm install
-    - name: Run tests
-      run: npm test -- --watchAll=false
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        if: ${{ inputs.run_tests == 'true' }}
+        run: npm test -- --watchAll=false
+
+      - name: Print environment
+        run: echo "Deploying to ${{ inputs.environment }}"
